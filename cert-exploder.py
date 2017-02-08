@@ -27,7 +27,7 @@ def explode(filepath):
     endorsements = pd.DataFrame(columns=['teacherID', 'endorsement'])
     index = 0
     for row in range(len(teachers)):
-        ID = teachers['Emplid'][row]
+        ID = teachers['teacherID'][row]
         endor = str(teachers['Accomplishment'][row])
         endor = endor.split(', ')
         for e in endor:
@@ -37,13 +37,13 @@ def explode(filepath):
     certifications = pd.DataFrame(columns=['teacherID', 'certification'])
     index = 0
     for row in range(len(teachers)):
-        ID = teachers['Emplid'][row]
+        ID = teachers['teacherID'][row]
         cert = str(teachers['Certification'][row])
         cert = cert.split(', ')
         for c in cert:
             certifications.loc[index] = [ID, c]
             index += 1
-    # remove 'ENDORSMENT' and 'CERTIFICATION' from teachers dataframe
+    # remove 'Accomplishment' and 'Certification' from teachers dataframe
     del teachers['Accomplishment']
     del teachers['Certification']
 
@@ -114,6 +114,9 @@ def main(filepath):
         k = key.replace("/", "|") #so as not to be confused with a new filepath
         twe.to_csv('reports/endorsements/' + k + ".csv")
 
+    print('Reports generated succesfully.')
+
+
 def parse_args(args):
     '''                                                                                                                      
     Parse the arguments                                                                                                      
@@ -131,11 +134,21 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         args = parse_args(sys.argv)
         filename = args.input_filename[0]
+        usingDefault = False 
     else:
-        print("no input file passed as argument...")
+        print("no input file passed as argument... Attempting to use default")
         filename  = 'SAW2611689 - Computer Science Teachers - 2017-02-06.xlsx'
+        usingDefault = True 
     if os.path.isfile(filename):
+        if usingDefault:
+            print('Using default')
         main(filename)
+    else:
+        if usingDefault:
+            print('Default file unavailable')
+        else:
+            print('Input file does not exist')
+
 
 
 
