@@ -10,10 +10,12 @@ import sys
 
 def explode(filepath):
     '''
-    Takes an Excel report of teachers with CS licenses, de-aggragates by
-    endorsement and by certification for easier analysis.
+    Takes an Excel report of CPS employees with teaching licenses and  
+    CS endorsements or other endorsements/certification applicable to CS and
+    de-aggragates by endorsement and by certification for easier analysis.
 
-    Inputs: filename of Excel file
+    Inputs: filename of Excel file (to avoid raising an error, the file 
+            needs the column names 'Accomplishment' and 'Certification')
 
     Returns: Dataframe 'endorsements', dataframe 'certifications',
             dataframe 'teachers'
@@ -66,9 +68,14 @@ def mkdir_p(path):
 
 def main(filepath):
     '''
-    Takes an Excel report of teachers with CS Licenses and makes a report of
-    the number of teachers with each type of certifications and reports for each
-    individual certification of the teachers that have that certification.
+    Takes an Excel report of CPS employees with teaching licenses and  
+    CS endorsements or other endorsements/certification applicable to CS and
+    makes a report of the number of teachers with each type of certifications 
+    and reports for each individual credential listing the teachers that have
+    that credential.
+
+    Input: filename of Excel file (to avoid raising an error, the file 
+            needs the column names 'Accomplishment' and 'Certification')
     '''
     # make a .csv with columns for each certification and number of
     #    teachers with that certification
@@ -137,7 +144,7 @@ if __name__ == '__main__':
         usingDefault = False 
     else:
         print("no input file passed as argument... Attempting to use default")
-        filename  = 'SAW2611689 - Computer Science Teachers - 2017-02-06.xlsx'
+        filename  = 'SAW2611689 - Computer Science Teachers - 2017-02-06.xlsx' #default
         usingDefault = True 
     if os.path.isfile(filename):
         if usingDefault:
@@ -145,9 +152,9 @@ if __name__ == '__main__':
         main(filename)
     else:
         if usingDefault:
-            print('Default file unavailable')
+            print('Default file not in working directory')
         else:
-            print('Input file does not exist')
+            print('Input file not found')
 
 
 
