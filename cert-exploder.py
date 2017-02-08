@@ -110,9 +110,9 @@ def main(filepath):
         endor = endorsements[endorsements['endorsement'] == key]
         IDs = list(endor.pop('teacherID'))
         twe = teachers[teachers['teacherID'].isin(IDs)]  # teachers w certification in question
-        del twe['teacherID']
+        twe = twe.drop('teacherID', 1)
         k = key.replace("/", "|") #so as not to be confused with a new filepath
-        twe.to_csv('reports/endorsements/' + k + ".csv")
+        twe.to_csv('reports/endorsements/' + k + ".csv", index = False)
 
     print('Reports generated succesfully.')
 
