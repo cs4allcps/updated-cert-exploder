@@ -4,7 +4,7 @@ import csv
 import pandas as pd
 import sys
 import os
-from cert_exploder.py import explode, parse_args
+from cert_exploder import explode, parse_args
 
 
 def main(filename):
