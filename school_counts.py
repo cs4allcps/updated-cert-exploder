@@ -4,7 +4,7 @@ import csv
 import pandas as pd
 import sys
 import os
-from cert_exploder import explode, parse_args
+from cert_exploder import explode, parse_args, mkdir_p
 import requests
 import json
 
@@ -42,11 +42,24 @@ def main(filename):
         cs4all_school_ids = [name_to_id[name] for name in cs4all_school_names]
         #remove teachers with school id not in list of cs4all school codes
         teachers = teacher[teachers['Deptid'] in cs4all_school_ids]
+    #now remove endorsements and certifications that don't belong to shortened list of teachers
+    IDs = teachers['teacherID'].tolist()
+    endorsements = endorsements[endorsements['teacherID'] in IDs]
+    certifications = certifications[certifications['teacherID'] in IDs]
+    #write counts for each school in question
     schools = list(set(teachers['Department'].tolist()))
-    for school in schools:
-        '''
-        Function unfinished
-        '''
+    mkdir_p('reports')
+    with open('reports/school_counts.csv', 'w') as f:
+        w = csv.writer(f)
+        w.writerow(['School,' 'CS Endorsements', 'Other Credentials'])
+        for school in schools:
+            teachs_at_school = teachers[teachers['Department'] == school]
+            IDs = teachs_at_school['teacherID'].tolist()
+            endorsements = 
+            '''
+            function incomplete
+            '''
+            w.writerow([school, endor_ct, cred_ct])
 
 
 
